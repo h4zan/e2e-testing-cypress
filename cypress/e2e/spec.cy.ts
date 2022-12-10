@@ -103,12 +103,15 @@ describe("testing movieApp", () => {
     cy.get("#movie-container> .movie").contains("<h3>", "<img>"); //fel
   });
 
-  it("should be able to get ", () => {
-    cy.get("#searchText").type("Harry").should("have.value", "Harry");
-    cy.intercept("GET", "http://omdbapi.com/*", mockData).as("movierequests");
+  it("should be able to show error-message when typing 2 characters ", () => {
+    cy.get("#searchText").type("Ha");
+    cy.get("#searchText").should("have.value", "Ha");
 
     cy.get("#search").click();
 
-    cy.get("#movie-container> .movie").contains("<h3>", "<img>"); //fel
+    cy.get("#movie-container> p").should(
+      "contain",
+      "Inga sökresultat att visa"
+    );
   });
 });
